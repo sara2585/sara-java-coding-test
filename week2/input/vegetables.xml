@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<vegetables>
+    <vegetable>
+        <name>pepper</name>
+        <weight>7</weight>
+    </vegetable>
+    <vegetable>
+        <name>cucumber</name>
+        <weight>10</weight>
+    </vegetable>
+    <vegetable>
+        <name>tomato</name>
+        <weight>20</weight>
+    </vegetable>
+    <vegetable>
+    <name>ice plant</name>
+        <weight>10</weight>
+    </vegetable>
+    <vegetable>
+        <name>cabbage</name>
+        <weight>5</weight>
+        </vegetable>
+</vegetables>
