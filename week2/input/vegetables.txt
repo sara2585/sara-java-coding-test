@@ -1,0 +1,3 @@
+pepper,5
+cucumber,10
+tomato,15

@@ -6,6 +6,7 @@ import java.util.Scanner;
 // Chef.java
 // Make salad with different vegetables.
 
+
 interface vegetables {
     class getCalorie {};
     class addVegetable {};
@@ -136,6 +137,8 @@ public class Chef {
                     ic.addVegetable();
                     cal = ic.cal;
                     break; }
+                default:
+                    System.out.println("This vegetable is not allowed: " + vegtables[i][0]);
             }
             int caloriesCount = cal * Integer.valueOf(vegtables[i][1]);
             salad.put(vegtables[i][0], caloriesCount);
@@ -160,6 +163,8 @@ public class Chef {
                     h.addFlavor();
                     cal = h.cal;
                     break;}
+                default:
+                    System.out.println("This flavor is not allowed: " + flavors[j][0]);
             }
             int caloriesCount = cal * Integer.valueOf(flavors[j][1]);
             salad.put(flavors[j][0], caloriesCount);
@@ -196,45 +201,77 @@ public class Chef {
     }
 
     public static void main(String[] args) {
-        
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Let's make a salad");
-        System.out.print("how many vegetables you want put in salad: ");
-        int r = scanner.nextInt();
-        int c = 2;
-        scanner.nextLine();
-        System.out.println("vegetables options: pepper, cabbage , tomato, cucumber, ice plant, please input the vegetable name first, press enter, then its grams");
-        String[][] vegetables = new String[r][2];
-        for(int i = 0; i<r; i++){
-            for(int j = 0; j<c; j++){
-                vegetables[i][j] = scanner.nextLine();
-            }
-        }
-        scanner.nextLine();
-        // System.out.println(vegetables);
 
-        System.out.println("how many flavors you want to put in  salad: ");
-        int row = scanner.nextInt();
-        String[][] flavors = new String[row][2];
-        scanner.nextLine();
-        System.out.println("flavors options: oil, salad dressing , honey, please input the flavor name first, press enter, then its grams");
-        for(int i = 0; i<row; i++){
-            for(int j = 0; j<c; j++){
-                flavors[i][j] = scanner.nextLine();
-            }
-        }
-        // System.out.println(flavors);
-        scanner.close();
-  
         // String[][] vegetables = { {"pepper", "10"}, {"tomato", "10"}, {"cucumber", "5"}, {"salad dressing", "10"}};
         // String[][] flavors = {{"salad dressing", "10"}, {"honey", "5"}};
-        // make salad:
-        System.out.println("Now let's make the salad: add vegetables and flavors together...");
-        Map<String, Integer> salad = makeSalad(vegetables, flavors);
-        System.out.print(salad);
-        // Sort the salad by calcories of each:
-        sortVegetables(salad);
-        // Search the vegetables contain most calories:
-        searchVegetables(salad);
+        
+        //1) Input from system scanner:
+        // Scanner scanner = new Scanner(System.in);
+        // System.out.println("Let's make a salad");
+        // System.out.print("how many vegetables you want put in salad: ");
+        // int r = 0;
+        // boolean count = true;
+        // while(count){
+        //     try{
+        //         r = scanner.nextInt();
+        //     }catch (InputMismatchException e) {
+        //                 System.out.println("Please input an Integer!");
+        //                 scanner.nextLine();
+        //             }
+        //     if(r > 0) { count = false; }
+        // }
+
+        // int c = 2;
+        // scanner.nextLine();
+        // System.out.println("vegetables options: pepper, cabbage , tomato, cucumber, ice plant, please input the vegetable name first, press enter, then its grams");
+        // String[][] vegetables = new String[r][2];
+        // for(int i = 0; i<r; i++){
+        //     for(int j = 0; j<c; j++){
+        //         vegetables[i][j] = scanner.nextLine();
+        //     }
+        // }
+        // scanner.nextLine();
+        // // System.out.println(vegetables);
+        // int row= 0;
+        // System.out.println("how many flavors you want to put in  salad: ");
+        // // try {
+        // //     row = scanner.nextInt();
+        // // } catch(InputMismatchException e) {
+        // //     System.out.println("please input an Integer!");
+        // // }
+        // row = scanner.nextInt();
+        // String[][] flavors = new String[row][2];
+        // scanner.nextLine();
+        // System.out.println("flavors options: oil, salad dressing , honey, please input the flavor name first, press enter, then its grams");
+        // for(int i = 0; i<row; i++){
+        //     for(int j = 0; j<c; j++){
+        //         flavors[i][j] = scanner.nextLine();
+        //     }
+        // }
+        
+        // // System.out.println(flavors);
+        // scanner.close();
+  
+
+        // 2) Read from Txt files:
+        // get vegetables:
+        String veg_dir = "C:/Users/Sara_Yu/Desktop/Java/sara-java-coding-test/week2/input/vegetables.txt";
+        String fla_dir = "C:/Users/Sara_Yu/Desktop/Java/sara-java-coding-test/week2/input/flavors.txt";
+        ReadFromTXT readtxt = new ReadFromTXT();
+        try {
+            String[][] vegetables = readtxt.readTxt(veg_dir);
+            String[][] flavors = readtxt.readTxt(fla_dir);
+            // make salad:
+            System.out.println("Now let's make the salad: add vegetables and flavors together...");
+            Map<String, Integer> salad = makeSalad(vegetables, flavors);
+            System.out.print(salad);
+            // Sort the salad by calcories of each:
+            sortVegetables(salad);
+            // Search the vegetables contain most calories:
+            searchVegetables(salad);
+
+        } catch(Exception e) {
+            System.out.println("error");
+        }
     }
 }

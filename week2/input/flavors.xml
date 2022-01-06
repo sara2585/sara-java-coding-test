@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<flavors>
+    <flavor>
+        <name>oil</name>
+        <weight>5</weight>
+    </flavor>
+    <flavor>
+        <name>salad dressing</name>
+        <weight>10</weight>
+    </flavor>
+    <flavor>
+        <name>honey</name>
+        <weight>6</weight>
+    </flavor>
+    <flavor>
+    <!-- <name>French Toast</name>
+        <weight>$4.50</weight>
+    </flavor>
+    <flavor>
+        <name>Homestyle Breakfast</name>
+        <weight>$6.95</weight>
+        </flavor> -->
+</flavors>
