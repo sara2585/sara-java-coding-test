@@ -1,2 +1,2 @@
-oil,5
+oil,10
 salad dressing,15

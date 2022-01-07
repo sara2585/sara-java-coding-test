@@ -1,6 +1,7 @@
 
 import java.util.*;
-import java.util.Scanner;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 
 // Chef.java
@@ -105,7 +106,7 @@ class Honey extends flavor {
 
 public class Chef {
     //To mix the vegetables and flavors together to make the salad: add the inputs into a map
-    public static Map<String, Integer> makeSalad(String[][] vegtables, String[][] flavors) {
+    public static Map<String, Integer> makeSalad(String[][] vegtables, String[][] flavors) throws InvalidNameException, InvalidInteger{
         Map<String, Integer> salad = new HashMap<String, Integer>();
         // add vegetables:
         for(int i = 0; i < vegtables.length; i++){
@@ -138,9 +139,15 @@ public class Chef {
                     cal = ic.cal;
                     break; }
                 default:
-                    System.out.println("This vegetable is not allowed: " + vegtables[i][0]);
+                    // System.out.println("This vegetable is not allowed: " + vegtables[i][0]);
+                    throw new InvalidNameException("This vegetable is not allowed: " + vegtables[i][0]); // Custom exception;   
             }
-            int caloriesCount = cal * Integer.valueOf(vegtables[i][1]);
+            int caloriesCount = 0;
+            if(isNumeric(vegtables[i][1])){
+                caloriesCount = cal * Integer.valueOf(vegtables[i][1]);
+            } else 
+                throw new InvalidInteger("The weight should be a number");      
+            
             salad.put(vegtables[i][0], caloriesCount);
         }
         // add flavors:
@@ -164,12 +171,25 @@ public class Chef {
                     cal = h.cal;
                     break;}
                 default:
-                    System.out.println("This flavor is not allowed: " + flavors[j][0]);
+                    // System.out.println("This flavor is not allowed: " + flavors[j][0]);
+                    throw new InvalidNameException("This flavor is not allowed: " + flavors[j][0]); // Custom exception;
             }
-            int caloriesCount = cal * Integer.valueOf(flavors[j][1]);
+            
+            int caloriesCount = 0;
+            if(isNumeric(flavors[j][1])){
+                caloriesCount = cal * Integer.valueOf(flavors[j][1]);
+            } else 
+                throw new InvalidInteger("The weight should be a number");     
             salad.put(flavors[j][0], caloriesCount);
         }
         return salad;
+    }
+
+    // judge if a string is Integer:
+    public static boolean isNumeric(String str) {
+        Pattern pattern = Pattern.compile("[0-9]*");
+        Matcher isNum = pattern.matcher(str);
+        return(isNum.matches());
     }
 
     // Count total calcories of the salad:
@@ -254,24 +274,63 @@ public class Chef {
   
 
         // 2) Read from Txt files:
-        // get vegetables:
+        // get vegetables and flavors:
+        System.out.println("Now let's read data from Txt: ");
         String veg_dir = "C:/Users/Sara_Yu/Desktop/Java/sara-java-coding-test/week2/input/vegetables.txt";
         String fla_dir = "C:/Users/Sara_Yu/Desktop/Java/sara-java-coding-test/week2/input/flavors.txt";
         ReadFromTXT readtxt = new ReadFromTXT();
         try {
-            String[][] vegetables = readtxt.readTxt(veg_dir);
-            String[][] flavors = readtxt.readTxt(fla_dir);
+            String[][] vegetables = readtxt.readData(veg_dir);
+            String[][] flavors = readtxt.readData(fla_dir);
             // make salad:
             System.out.println("Now let's make the salad: add vegetables and flavors together...");
             Map<String, Integer> salad = makeSalad(vegetables, flavors);
-            System.out.print(salad);
             // Sort the salad by calcories of each:
             sortVegetables(salad);
             // Search the vegetables contain most calories:
             searchVegetables(salad);
 
         } catch(Exception e) {
-            System.out.println("error");
+            System.out.println(e.getMessage());
         }
+
+        //3) Read data from xml files:
+        System.out.println("Now let's read data from XML:");
+        ReadFromXML readxml = new ReadFromXML();
+        String fla_dir_xml = "./input/flavors.xml";
+        String veg_dir_xml = "./input/vegetables.xml";
+        try {
+            String[][] vegetables = readxml.readData(veg_dir_xml);
+            String[][] flavors = readxml.readData(fla_dir_xml);
+            // make salad:
+            System.out.println("Now let's make the salad: add vegetables and flavors together...");
+            Map<String, Integer> salad = makeSalad(vegetables, flavors);
+            // Sort the salad by calcories of each:
+            sortVegetables(salad);
+            // Search the vegetables contain most calories:
+            searchVegetables(salad);
+
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+        }    
+        // 4) Read data from DB:
+        System.out.println("Now let's read data from mySQL: ");
+        ReadFromDB readdb = new ReadFromDB();
+        String QUERY_veg = "SELECT name, weight FROM vegetable";
+        String QUERY_fla = "SELECT name, weight FROM flavor";
+        try {
+        String[][] vegetables = readdb.readData(QUERY_veg);
+        String[][] flavors = readdb.readData(QUERY_fla);
+        // make salad:
+        System.out.println("Now let's make the salad: add vegetables and flavors together...");
+        Map<String, Integer> salad = makeSalad(vegetables, flavors);
+        // Sort the salad by calcories of each:
+        sortVegetables(salad);
+        // Search the vegetables contain most calories:
+        searchVegetables(salad);
+    } catch(Exception f) {
+        System.out.print(f.getMessage());
     }
 }
+}
+
