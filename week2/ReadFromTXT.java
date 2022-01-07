@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 
-public class ReadFromTXT {
-    public String[][] readTxt(String dir) throws Exception {
+public class ReadFromTXT implements ReadData {
+    public String[][] readData(String dir) {
 
         // String dir = "C:/Users/Sara_Yu/Desktop/Java/sara-java-coding-test/week2/input/vegetables.txt";
         List<String> veg_list = new ArrayList<>();
@@ -44,7 +44,7 @@ public class ReadFromTXT {
         String dir= "C:/Users/Sara_Yu/Desktop/Java/sara-java-coding-test/week2/input/flavors.txt";
         ReadFromTXT read = new ReadFromTXT();
         try {
-            String[][] items = read.readTxt(dir);
+            String[][] items = read.readData(dir);
             for(int i = 0; i < items.length; i++){
                 System.out.println(items[i][0] + ":" + items[i][1]);
             }
